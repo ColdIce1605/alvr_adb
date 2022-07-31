@@ -1,6 +1,6 @@
 use curl::easy::Easy;
-use std::{env, fs};
 use std::process::Stdio;
+use std::{env, fs};
 use std::{fs::File, io::prelude::*, process::Command};
 
 fn main() -> std::io::Result<()> {
@@ -35,7 +35,13 @@ fn main() -> std::io::Result<()> {
         Command::new("sh")
     };
 
-    let path_to_adb = dirs::home_dir().unwrap().as_path().to_str().unwrap().to_owned() + "/Documents/platform-tools/";
+    let path_to_adb = dirs::home_dir()
+        .unwrap()
+        .as_path()
+        .to_str()
+        .unwrap()
+        .to_owned()
+        + "/Documents/platform-tools/";
 
     command_shell.current_dir(path_to_adb);
 
@@ -47,9 +53,11 @@ fn main() -> std::io::Result<()> {
         command_shell.arg("-c").arg(command);
     }
 
-    let mut execute = command_shell.stdout(Stdio::null()).spawn().expect("failed to execute process");
+    let mut execute = command_shell
+        .stdout(Stdio::null())
+        .spawn()
+        .expect("failed to execute process");
     let _result = execute.wait().unwrap();
- 
 
     fs::remove_file("alvr_client_oculus_quest.apk")?;
 
